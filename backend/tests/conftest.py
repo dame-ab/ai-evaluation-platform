@@ -7,9 +7,31 @@ from sqlmodel import Session, delete
 from app.core.config import settings
 from app.core.db import engine, init_db
 from app.main import app
-from app.models import Item, User
+from app.models import (
+    EvalTask,
+    Evaluation,
+    EvaluationScore,
+    ModelResponse,
+    Project,
+    Rubric,
+    RubricCriterion,
+    User,
+)
 from tests.utils.user import authentication_token_from_email
 from tests.utils.utils import get_superuser_token_headers
+
+# Deleted in dependency order so this works the same whether or not the
+# database engine enforces foreign keys (SQLite only does with a pragma).
+_TABLES_TO_RESET = [
+    EvaluationScore,
+    Evaluation,
+    ModelResponse,
+    EvalTask,
+    RubricCriterion,
+    Rubric,
+    Project,
+    User,
+]
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -17,10 +39,8 @@ def db() -> Generator[Session]:
     with Session(engine) as session:
         init_db(session)
         yield session
-        statement = delete(Item)
-        session.execute(statement)
-        statement = delete(User)
-        session.execute(statement)
+        for table in _TABLES_TO_RESET:
+            session.execute(delete(table))
         session.commit()
 
 
