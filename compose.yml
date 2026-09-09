@@ -1,88 +1,95 @@
+# Local development stack: Postgres + the FastAPI backend + the Vite dev
+# server for the frontend, plus two small conveniences (Adminer to browse
+# the database, Mailpit to view password-reset emails). This is the primary,
+# documented way to run the project -- see README "Quick start".
+#
+# No reverse proxy, TLS, or domain routing here on purpose: this repo is
+# meant to be run locally, not deployed (see README "Roadmap").
+
 services:
-
-  proxy:
-    image: traefik:v3.7
-    volumes:
-      # Add Docker as a mounted volume, so that Traefik can read the labels of other services
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    command:
-      # Enable Docker in Traefik, so that it reads labels from Docker services
-      - --providers.docker
-      # Do not expose all Docker services, only the ones explicitly exposed
-      - --providers.docker.exposedbydefault=false
-      # Create an entrypoint "http" listening on port 80
-      - --entrypoints.http.address=:80
-      # Enable the access log, with HTTP requests
-      - --accesslog
-      # Enable the Traefik log, for configurations and errors
-      - --log
-
   db:
     image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changethis}
+      POSTGRES_DB: app
+    volumes:
+      - app-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
-    volumes:
-      - app-db-data:/var/lib/postgresql
-    environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Variable not set}
-      - POSTGRES_DB=app
-
-  adminer:
-    image: adminer
-    depends_on:
-      - db
-    environment:
-      - ADMINER_DESIGN=pepa-linha-dark
-    labels:
-      # Enable Traefik for this service
-      - traefik.enable=true
-      # Route HTTP traffic for the Adminer subdomain
-      - traefik.http.routers.adminer-http.rule=Host(`adminer.${DOMAIN:-localhost}`)
-      - traefik.http.routers.adminer-http.entrypoints=http
-      # Define the port inside of the Docker service to use
-      - traefik.http.services.adminer.loadbalancer.server.port=8080
+      interval: 5s
+      retries: 10
 
   backend:
-    image: backend:latest
+    build:
+      context: ./backend
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
-        restart: true
     environment:
-      PROJECT_NAME: ${PROJECT_NAME:?Variable not set}
-      SECRET_KEY: ${SECRET_KEY:?Variable not set}
-      FIRST_SUPERUSER: ${FIRST_SUPERUSER:?Variable not set}
-      FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD:?Variable not set}
-      SMTP_HOST: ${SMTP_HOST}
-      SMTP_USER: ${SMTP_USER:-}
-      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
-      EMAILS_FROM_EMAIL: ${EMAILS_FROM_EMAIL}
-      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?Variable not set}@db:5432/app
-      SENTRY_DSN: ${SENTRY_DSN:-}
+      FASTAPI_ENV: development
+      PROJECT_NAME: ${PROJECT_NAME:-AI Evaluation Platform}
+      SECRET_KEY: ${SECRET_KEY:-changethis}
+      FIRST_SUPERUSER: ${FIRST_SUPERUSER:-admin@example.com}
+      FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD:-changethis}
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-changethis}@db:5432/app
+      FRONTEND_HOST: http://localhost:5173
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      SMTP_TLS: "false"
+      EMAILS_FROM_EMAIL: info@example.com
+    ports:
+      - "8000:8000"
+    volumes:
+      # Bind-mount the source so `fastapi dev`'s auto-reload picks up edits
+      # without rebuilding the image.
+      - ./backend/app:/app/app
+    # Migrate the (Postgres) database and create the first superuser on every
+    # start -- both are no-ops once already applied -- then run the dev
+    # server with auto-reload.
+    command:
+      - sh
+      - -c
+      - |
+        alembic upgrade head &&
+        python -m app.initial_data &&
+        fastapi dev --host 0.0.0.0 app/main.py
 
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/utils/health-check/"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+  frontend:
+    image: node:24-slim
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
 
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-    labels:
-      # Enable Traefik for this service
-      - traefik.enable=true
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_DESIGN: pepa-linha-dark
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
 
-      # Define the port inside of the Docker service to use
-      - traefik.http.services.backend.loadbalancer.server.port=8000
-
-      # Route HTTP traffic for this domain
-      - traefik.http.routers.backend-http.rule=Host(`${DOMAIN:-localhost}`)
-      - traefik.http.routers.backend-http.entrypoints=http
+  mailpit:
+    image: axllent/mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
 
 volumes:
   app-db-data:
+  frontend-node-modules:
