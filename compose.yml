@@ -59,7 +59,7 @@ services:
         fastapi dev --host 0.0.0.0 app/main.py
 
   frontend:
-    image: node:24-slim
+    image: node:26-slim
     restart: unless-stopped
     working_dir: /app
     volumes:
