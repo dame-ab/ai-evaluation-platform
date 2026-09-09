@@ -35,6 +35,269 @@ export type Body_login_login_access_token = {
 };
 
 /**
+ * CriterionAverage
+ */
+export type CriterionAverage = {
+    /**
+     * Criterion Id
+     */
+    criterion_id: string;
+    /**
+     * Criterion Name
+     */
+    criterion_name: string;
+    /**
+     * Model Name
+     */
+    model_name: string;
+    /**
+     * Average Score
+     */
+    average_score: number;
+    /**
+     * Sample Count
+     */
+    sample_count: number;
+};
+
+/**
+ * EvalTaskCreate
+ */
+export type EvalTaskCreate = {
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Prompt
+     */
+    prompt: string;
+    /**
+     * Reference Answer
+     */
+    reference_answer?: string | null;
+    /**
+     * Category
+     */
+    category?: string | null;
+};
+
+/**
+ * EvalTaskSummary
+ */
+export type EvalTaskSummary = {
+    /**
+     * Title
+     */
+    title: string;
+    /**
+     * Prompt
+     */
+    prompt: string;
+    /**
+     * Reference Answer
+     */
+    reference_answer?: string | null;
+    /**
+     * Category
+     */
+    category?: string | null;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Project Id
+     */
+    project_id: string;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Response Count
+     */
+    response_count?: number;
+    /**
+     * Evaluation Count
+     */
+    evaluation_count?: number;
+};
+
+/**
+ * EvalTaskUpdate
+ */
+export type EvalTaskUpdate = {
+    /**
+     * Title
+     */
+    title?: string | null;
+    /**
+     * Prompt
+     */
+    prompt?: string | null;
+    /**
+     * Reference Answer
+     */
+    reference_answer?: string | null;
+    /**
+     * Category
+     */
+    category?: string | null;
+};
+
+/**
+ * EvalTasksPublic
+ */
+export type EvalTasksPublic = {
+    /**
+     * Data
+     */
+    data: Array<EvalTaskSummary>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * EvaluationCreate
+ */
+export type EvaluationCreate = {
+    /**
+     * Justification
+     */
+    justification?: string | null;
+    failure_classification?: FailureClassification;
+    /**
+     * Is Winner
+     */
+    is_winner?: boolean;
+    /**
+     * Rubric Id
+     */
+    rubric_id: string;
+    /**
+     * Scores
+     */
+    scores?: Array<ScoreInput>;
+};
+
+/**
+ * EvaluationPublic
+ */
+export type EvaluationPublic = {
+    /**
+     * Justification
+     */
+    justification?: string | null;
+    failure_classification?: FailureClassification;
+    /**
+     * Is Winner
+     */
+    is_winner?: boolean;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Response Id
+     */
+    response_id: string;
+    /**
+     * Evaluator Id
+     */
+    evaluator_id: string;
+    /**
+     * Rubric Id
+     */
+    rubric_id: string;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Updated At
+     */
+    updated_at?: string | null;
+    /**
+     * Scores
+     */
+    scores?: Array<EvaluationScorePublic>;
+};
+
+/**
+ * EvaluationScorePublic
+ */
+export type EvaluationScorePublic = {
+    /**
+     * Score
+     */
+    score: number;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Criterion Id
+     */
+    criterion_id: string;
+};
+
+/**
+ * EvaluationUpdate
+ */
+export type EvaluationUpdate = {
+    /**
+     * Justification
+     */
+    justification?: string | null;
+    failure_classification?: FailureClassification | null;
+    /**
+     * Is Winner
+     */
+    is_winner?: boolean | null;
+    /**
+     * Scores
+     */
+    scores?: Array<ScoreInput> | null;
+};
+
+/**
+ * EvaluationsPublic
+ */
+export type EvaluationsPublic = {
+    /**
+     * Data
+     */
+    data: Array<EvaluationPublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * FailureBreakdownItem
+ */
+export type FailureBreakdownItem = {
+    /**
+     * Model Name
+     */
+    model_name: string;
+    failure_classification: FailureClassification;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * FailureClassification
+ */
+export type FailureClassification = 'none' | 'hallucination' | 'factual_error' | 'incomplete_answer' | 'unsafe_content' | 'off_topic' | 'formatting_error' | 'other';
+
+/**
  * HTTPValidationError
  */
 export type HTTPValidationError = {
@@ -45,74 +308,6 @@ export type HTTPValidationError = {
 };
 
 /**
- * ItemCreate
- */
-export type ItemCreate = {
-    /**
-     * Title
-     */
-    title: string;
-    /**
-     * Description
-     */
-    description?: string | null;
-};
-
-/**
- * ItemPublic
- */
-export type ItemPublic = {
-    /**
-     * Title
-     */
-    title: string;
-    /**
-     * Description
-     */
-    description?: string | null;
-    /**
-     * Id
-     */
-    id: string;
-    /**
-     * Owner Id
-     */
-    owner_id: string;
-    /**
-     * Created At
-     */
-    created_at?: string | null;
-};
-
-/**
- * ItemUpdate
- */
-export type ItemUpdate = {
-    /**
-     * Title
-     */
-    title?: string | null;
-    /**
-     * Description
-     */
-    description?: string | null;
-};
-
-/**
- * ItemsPublic
- */
-export type ItemsPublic = {
-    /**
-     * Data
-     */
-    data: Array<ItemPublic>;
-    /**
-     * Count
-     */
-    count: number;
-};
-
-/**
  * Message
  */
 export type Message = {
@@ -120,6 +315,96 @@ export type Message = {
      * Message
      */
     message: string;
+};
+
+/**
+ * ModelResponseCreate
+ */
+export type ModelResponseCreate = {
+    /**
+     * Model Name
+     */
+    model_name: string;
+    /**
+     * Response Text
+     */
+    response_text: string;
+};
+
+/**
+ * ModelResponsePublic
+ */
+export type ModelResponsePublic = {
+    /**
+     * Model Name
+     */
+    model_name: string;
+    /**
+     * Response Text
+     */
+    response_text: string;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Task Id
+     */
+    task_id: string;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+};
+
+/**
+ * ModelResponseUpdate
+ */
+export type ModelResponseUpdate = {
+    /**
+     * Model Name
+     */
+    model_name?: string | null;
+    /**
+     * Response Text
+     */
+    response_text?: string | null;
+};
+
+/**
+ * ModelResponsesPublic
+ */
+export type ModelResponsesPublic = {
+    /**
+     * Data
+     */
+    data: Array<ModelResponsePublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * ModelWinRate
+ */
+export type ModelWinRate = {
+    /**
+     * Model Name
+     */
+    model_name: string;
+    /**
+     * Evaluation Count
+     */
+    evaluation_count: number;
+    /**
+     * Win Count
+     */
+    win_count: number;
+    /**
+     * Win Rate
+     */
+    win_rate: number;
 };
 
 /**
@@ -156,6 +441,294 @@ export type PrivateUserCreate = {
      * Is Verified
      */
     is_verified?: boolean;
+};
+
+/**
+ * ProjectAnalytics
+ */
+export type ProjectAnalytics = {
+    /**
+     * Total Tasks
+     */
+    total_tasks: number;
+    /**
+     * Total Responses
+     */
+    total_responses: number;
+    /**
+     * Total Evaluations
+     */
+    total_evaluations: number;
+    /**
+     * Win Rates
+     */
+    win_rates: Array<ModelWinRate>;
+    /**
+     * Criterion Averages
+     */
+    criterion_averages: Array<CriterionAverage>;
+    /**
+     * Failure Breakdown
+     */
+    failure_breakdown: Array<FailureBreakdownItem>;
+};
+
+/**
+ * ProjectCreate
+ */
+export type ProjectCreate = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+};
+
+/**
+ * ProjectSummary
+ *
+ * A project annotated with lightweight counts, used for list views.
+ */
+export type ProjectSummary = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Owner Id
+     */
+    owner_id: string;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Task Count
+     */
+    task_count?: number;
+    /**
+     * Response Count
+     */
+    response_count?: number;
+    /**
+     * Evaluation Count
+     */
+    evaluation_count?: number;
+};
+
+/**
+ * ProjectUpdate
+ */
+export type ProjectUpdate = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+};
+
+/**
+ * ProjectsPublic
+ */
+export type ProjectsPublic = {
+    /**
+     * Data
+     */
+    data: Array<ProjectSummary>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * RubricCreate
+ */
+export type RubricCreate = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Criteria
+     */
+    criteria?: Array<RubricCriterionCreate>;
+};
+
+/**
+ * RubricCriterionCreate
+ */
+export type RubricCriterionCreate = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Weight
+     */
+    weight?: number;
+    /**
+     * Max Score
+     */
+    max_score?: number;
+    /**
+     * Order
+     */
+    order?: number;
+};
+
+/**
+ * RubricCriterionPublic
+ */
+export type RubricCriterionPublic = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Weight
+     */
+    weight?: number;
+    /**
+     * Max Score
+     */
+    max_score?: number;
+    /**
+     * Order
+     */
+    order?: number;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Rubric Id
+     */
+    rubric_id: string;
+};
+
+/**
+ * RubricCriterionUpdate
+ */
+export type RubricCriterionUpdate = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Weight
+     */
+    weight?: number | null;
+    /**
+     * Max Score
+     */
+    max_score?: number | null;
+    /**
+     * Order
+     */
+    order?: number | null;
+};
+
+/**
+ * RubricPublic
+ */
+export type RubricPublic = {
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description?: string | null;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Project Id
+     */
+    project_id: string;
+    /**
+     * Created At
+     */
+    created_at?: string | null;
+    /**
+     * Criteria
+     */
+    criteria?: Array<RubricCriterionPublic>;
+};
+
+/**
+ * RubricUpdate
+ */
+export type RubricUpdate = {
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Description
+     */
+    description?: string | null;
+};
+
+/**
+ * RubricsPublic
+ */
+export type RubricsPublic = {
+    /**
+     * Data
+     */
+    data: Array<RubricPublic>;
+    /**
+     * Count
+     */
+    count: number;
+};
+
+/**
+ * ScoreInput
+ */
+export type ScoreInput = {
+    /**
+     * Criterion Id
+     */
+    criterion_id: string;
+    /**
+     * Score
+     */
+    score: number;
 };
 
 /**
@@ -772,7 +1345,7 @@ export type utilsHealthCheckResponses = {
 
 export type utilsHealthCheckResponse = utilsHealthCheckResponses[keyof utilsHealthCheckResponses];
 
-export type itemsReadItemsData = {
+export type projectsReadProjectsData = {
     body?: never;
     path?: never;
     query?: {
@@ -785,141 +1358,818 @@ export type itemsReadItemsData = {
          */
         limit?: number;
     };
-    url: '/api/v1/items/';
+    url: '/api/v1/projects/';
 };
 
-export type itemsReadItemsErrors = {
+export type projectsReadProjectsErrors = {
     /**
      * Validation Error
      */
     422: HTTPValidationError;
 };
 
-export type itemsReadItemsError = itemsReadItemsErrors[keyof itemsReadItemsErrors];
+export type projectsReadProjectsError = projectsReadProjectsErrors[keyof projectsReadProjectsErrors];
 
-export type itemsReadItemsResponses = {
+export type projectsReadProjectsResponses = {
     /**
      * Successful Response
      */
-    200: ItemsPublic;
+    200: ProjectsPublic;
 };
 
-export type itemsReadItemsResponse = itemsReadItemsResponses[keyof itemsReadItemsResponses];
+export type projectsReadProjectsResponse = projectsReadProjectsResponses[keyof projectsReadProjectsResponses];
 
-export type itemsCreateItemData = {
-    body: ItemCreate;
+export type projectsCreateNewProjectData = {
+    body: ProjectCreate;
     path?: never;
     query?: never;
-    url: '/api/v1/items/';
+    url: '/api/v1/projects/';
 };
 
-export type itemsCreateItemErrors = {
+export type projectsCreateNewProjectErrors = {
     /**
      * Validation Error
      */
     422: HTTPValidationError;
 };
 
-export type itemsCreateItemError = itemsCreateItemErrors[keyof itemsCreateItemErrors];
+export type projectsCreateNewProjectError = projectsCreateNewProjectErrors[keyof projectsCreateNewProjectErrors];
 
-export type itemsCreateItemResponses = {
+export type projectsCreateNewProjectResponses = {
     /**
      * Successful Response
      */
-    200: ItemPublic;
+    200: ProjectSummary;
 };
 
-export type itemsCreateItemResponse = itemsCreateItemResponses[keyof itemsCreateItemResponses];
+export type projectsCreateNewProjectResponse = projectsCreateNewProjectResponses[keyof projectsCreateNewProjectResponses];
 
-export type itemsDeleteItemData = {
+export type projectsDeleteProjectData = {
     body?: never;
     path: {
         /**
-         * Id
+         * Project Id
          */
-        id: string;
+        project_id: string;
     };
     query?: never;
-    url: '/api/v1/items/{id}';
+    url: '/api/v1/projects/{project_id}';
 };
 
-export type itemsDeleteItemErrors = {
+export type projectsDeleteProjectErrors = {
     /**
      * Validation Error
      */
     422: HTTPValidationError;
 };
 
-export type itemsDeleteItemError = itemsDeleteItemErrors[keyof itemsDeleteItemErrors];
+export type projectsDeleteProjectError = projectsDeleteProjectErrors[keyof projectsDeleteProjectErrors];
 
-export type itemsDeleteItemResponses = {
+export type projectsDeleteProjectResponses = {
     /**
      * Successful Response
      */
     200: Message;
 };
 
-export type itemsDeleteItemResponse = itemsDeleteItemResponses[keyof itemsDeleteItemResponses];
+export type projectsDeleteProjectResponse = projectsDeleteProjectResponses[keyof projectsDeleteProjectResponses];
 
-export type itemsReadItemData = {
+export type projectsReadProjectData = {
     body?: never;
     path: {
         /**
-         * Id
+         * Project Id
          */
-        id: string;
+        project_id: string;
     };
     query?: never;
-    url: '/api/v1/items/{id}';
+    url: '/api/v1/projects/{project_id}';
 };
 
-export type itemsReadItemErrors = {
+export type projectsReadProjectErrors = {
     /**
      * Validation Error
      */
     422: HTTPValidationError;
 };
 
-export type itemsReadItemError = itemsReadItemErrors[keyof itemsReadItemErrors];
+export type projectsReadProjectError = projectsReadProjectErrors[keyof projectsReadProjectErrors];
 
-export type itemsReadItemResponses = {
+export type projectsReadProjectResponses = {
     /**
      * Successful Response
      */
-    200: ItemPublic;
+    200: ProjectSummary;
 };
 
-export type itemsReadItemResponse = itemsReadItemResponses[keyof itemsReadItemResponses];
+export type projectsReadProjectResponse = projectsReadProjectResponses[keyof projectsReadProjectResponses];
 
-export type itemsUpdateItemData = {
-    body: ItemUpdate;
+export type projectsUpdateProjectData = {
+    body: ProjectUpdate;
     path: {
         /**
-         * Id
+         * Project Id
          */
-        id: string;
+        project_id: string;
     };
     query?: never;
-    url: '/api/v1/items/{id}';
+    url: '/api/v1/projects/{project_id}';
 };
 
-export type itemsUpdateItemErrors = {
+export type projectsUpdateProjectErrors = {
     /**
      * Validation Error
      */
     422: HTTPValidationError;
 };
 
-export type itemsUpdateItemError = itemsUpdateItemErrors[keyof itemsUpdateItemErrors];
+export type projectsUpdateProjectError = projectsUpdateProjectErrors[keyof projectsUpdateProjectErrors];
 
-export type itemsUpdateItemResponses = {
+export type projectsUpdateProjectResponses = {
     /**
      * Successful Response
      */
-    200: ItemPublic;
+    200: ProjectSummary;
 };
 
-export type itemsUpdateItemResponse = itemsUpdateItemResponses[keyof itemsUpdateItemResponses];
+export type projectsUpdateProjectResponse = projectsUpdateProjectResponses[keyof projectsUpdateProjectResponses];
+
+export type rubricsReadRubricsData = {
+    body?: never;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: string;
+    };
+    query?: never;
+    url: '/api/v1/projects/{project_id}/rubrics';
+};
+
+export type rubricsReadRubricsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsReadRubricsError = rubricsReadRubricsErrors[keyof rubricsReadRubricsErrors];
+
+export type rubricsReadRubricsResponses = {
+    /**
+     * Successful Response
+     */
+    200: RubricsPublic;
+};
+
+export type rubricsReadRubricsResponse = rubricsReadRubricsResponses[keyof rubricsReadRubricsResponses];
+
+export type rubricsCreateProjectRubricData = {
+    body: RubricCreate;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: string;
+    };
+    query?: never;
+    url: '/api/v1/projects/{project_id}/rubrics';
+};
+
+export type rubricsCreateProjectRubricErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsCreateProjectRubricError = rubricsCreateProjectRubricErrors[keyof rubricsCreateProjectRubricErrors];
+
+export type rubricsCreateProjectRubricResponses = {
+    /**
+     * Successful Response
+     */
+    200: RubricPublic;
+};
+
+export type rubricsCreateProjectRubricResponse = rubricsCreateProjectRubricResponses[keyof rubricsCreateProjectRubricResponses];
+
+export type rubricsDeleteRubricData = {
+    body?: never;
+    path: {
+        /**
+         * Rubric Id
+         */
+        rubric_id: string;
+    };
+    query?: never;
+    url: '/api/v1/rubrics/{rubric_id}';
+};
+
+export type rubricsDeleteRubricErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsDeleteRubricError = rubricsDeleteRubricErrors[keyof rubricsDeleteRubricErrors];
+
+export type rubricsDeleteRubricResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type rubricsDeleteRubricResponse = rubricsDeleteRubricResponses[keyof rubricsDeleteRubricResponses];
+
+export type rubricsReadRubricData = {
+    body?: never;
+    path: {
+        /**
+         * Rubric Id
+         */
+        rubric_id: string;
+    };
+    query?: never;
+    url: '/api/v1/rubrics/{rubric_id}';
+};
+
+export type rubricsReadRubricErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsReadRubricError = rubricsReadRubricErrors[keyof rubricsReadRubricErrors];
+
+export type rubricsReadRubricResponses = {
+    /**
+     * Successful Response
+     */
+    200: RubricPublic;
+};
+
+export type rubricsReadRubricResponse = rubricsReadRubricResponses[keyof rubricsReadRubricResponses];
+
+export type rubricsUpdateRubricData = {
+    body: RubricUpdate;
+    path: {
+        /**
+         * Rubric Id
+         */
+        rubric_id: string;
+    };
+    query?: never;
+    url: '/api/v1/rubrics/{rubric_id}';
+};
+
+export type rubricsUpdateRubricErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsUpdateRubricError = rubricsUpdateRubricErrors[keyof rubricsUpdateRubricErrors];
+
+export type rubricsUpdateRubricResponses = {
+    /**
+     * Successful Response
+     */
+    200: RubricPublic;
+};
+
+export type rubricsUpdateRubricResponse = rubricsUpdateRubricResponses[keyof rubricsUpdateRubricResponses];
+
+export type rubricsAddCriterionData = {
+    body: RubricCriterionCreate;
+    path: {
+        /**
+         * Rubric Id
+         */
+        rubric_id: string;
+    };
+    query?: never;
+    url: '/api/v1/rubrics/{rubric_id}/criteria';
+};
+
+export type rubricsAddCriterionErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsAddCriterionError = rubricsAddCriterionErrors[keyof rubricsAddCriterionErrors];
+
+export type rubricsAddCriterionResponses = {
+    /**
+     * Successful Response
+     */
+    200: RubricCriterionPublic;
+};
+
+export type rubricsAddCriterionResponse = rubricsAddCriterionResponses[keyof rubricsAddCriterionResponses];
+
+export type rubricsDeleteCriterionData = {
+    body?: never;
+    path: {
+        /**
+         * Rubric Id
+         */
+        rubric_id: string;
+        /**
+         * Criterion Id
+         */
+        criterion_id: string;
+    };
+    query?: never;
+    url: '/api/v1/rubrics/{rubric_id}/criteria/{criterion_id}';
+};
+
+export type rubricsDeleteCriterionErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsDeleteCriterionError = rubricsDeleteCriterionErrors[keyof rubricsDeleteCriterionErrors];
+
+export type rubricsDeleteCriterionResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type rubricsDeleteCriterionResponse = rubricsDeleteCriterionResponses[keyof rubricsDeleteCriterionResponses];
+
+export type rubricsUpdateCriterionData = {
+    body: RubricCriterionUpdate;
+    path: {
+        /**
+         * Rubric Id
+         */
+        rubric_id: string;
+        /**
+         * Criterion Id
+         */
+        criterion_id: string;
+    };
+    query?: never;
+    url: '/api/v1/rubrics/{rubric_id}/criteria/{criterion_id}';
+};
+
+export type rubricsUpdateCriterionErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type rubricsUpdateCriterionError = rubricsUpdateCriterionErrors[keyof rubricsUpdateCriterionErrors];
+
+export type rubricsUpdateCriterionResponses = {
+    /**
+     * Successful Response
+     */
+    200: RubricCriterionPublic;
+};
+
+export type rubricsUpdateCriterionResponse = rubricsUpdateCriterionResponses[keyof rubricsUpdateCriterionResponses];
+
+export type tasksReadTasksData = {
+    body?: never;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: string;
+    };
+    query?: {
+        /**
+         * Skip
+         */
+        skip?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/projects/{project_id}/tasks';
+};
+
+export type tasksReadTasksErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksReadTasksError = tasksReadTasksErrors[keyof tasksReadTasksErrors];
+
+export type tasksReadTasksResponses = {
+    /**
+     * Successful Response
+     */
+    200: EvalTasksPublic;
+};
+
+export type tasksReadTasksResponse = tasksReadTasksResponses[keyof tasksReadTasksResponses];
+
+export type tasksCreateProjectTaskData = {
+    body: EvalTaskCreate;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: string;
+    };
+    query?: never;
+    url: '/api/v1/projects/{project_id}/tasks';
+};
+
+export type tasksCreateProjectTaskErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksCreateProjectTaskError = tasksCreateProjectTaskErrors[keyof tasksCreateProjectTaskErrors];
+
+export type tasksCreateProjectTaskResponses = {
+    /**
+     * Successful Response
+     */
+    200: EvalTaskSummary;
+};
+
+export type tasksCreateProjectTaskResponse = tasksCreateProjectTaskResponses[keyof tasksCreateProjectTaskResponses];
+
+export type tasksDeleteTaskData = {
+    body?: never;
+    path: {
+        /**
+         * Task Id
+         */
+        task_id: string;
+    };
+    query?: never;
+    url: '/api/v1/tasks/{task_id}';
+};
+
+export type tasksDeleteTaskErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksDeleteTaskError = tasksDeleteTaskErrors[keyof tasksDeleteTaskErrors];
+
+export type tasksDeleteTaskResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type tasksDeleteTaskResponse = tasksDeleteTaskResponses[keyof tasksDeleteTaskResponses];
+
+export type tasksReadTaskData = {
+    body?: never;
+    path: {
+        /**
+         * Task Id
+         */
+        task_id: string;
+    };
+    query?: never;
+    url: '/api/v1/tasks/{task_id}';
+};
+
+export type tasksReadTaskErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksReadTaskError = tasksReadTaskErrors[keyof tasksReadTaskErrors];
+
+export type tasksReadTaskResponses = {
+    /**
+     * Successful Response
+     */
+    200: EvalTaskSummary;
+};
+
+export type tasksReadTaskResponse = tasksReadTaskResponses[keyof tasksReadTaskResponses];
+
+export type tasksUpdateTaskData = {
+    body: EvalTaskUpdate;
+    path: {
+        /**
+         * Task Id
+         */
+        task_id: string;
+    };
+    query?: never;
+    url: '/api/v1/tasks/{task_id}';
+};
+
+export type tasksUpdateTaskErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksUpdateTaskError = tasksUpdateTaskErrors[keyof tasksUpdateTaskErrors];
+
+export type tasksUpdateTaskResponses = {
+    /**
+     * Successful Response
+     */
+    200: EvalTaskSummary;
+};
+
+export type tasksUpdateTaskResponse = tasksUpdateTaskResponses[keyof tasksUpdateTaskResponses];
+
+export type tasksReadResponsesData = {
+    body?: never;
+    path: {
+        /**
+         * Task Id
+         */
+        task_id: string;
+    };
+    query?: never;
+    url: '/api/v1/tasks/{task_id}/responses';
+};
+
+export type tasksReadResponsesErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksReadResponsesError = tasksReadResponsesErrors[keyof tasksReadResponsesErrors];
+
+export type tasksReadResponsesResponses = {
+    /**
+     * Successful Response
+     */
+    200: ModelResponsesPublic;
+};
+
+export type tasksReadResponsesResponse = tasksReadResponsesResponses[keyof tasksReadResponsesResponses];
+
+export type tasksAddResponseData = {
+    body: ModelResponseCreate;
+    path: {
+        /**
+         * Task Id
+         */
+        task_id: string;
+    };
+    query?: never;
+    url: '/api/v1/tasks/{task_id}/responses';
+};
+
+export type tasksAddResponseErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksAddResponseError = tasksAddResponseErrors[keyof tasksAddResponseErrors];
+
+export type tasksAddResponseResponses = {
+    /**
+     * Successful Response
+     */
+    200: ModelResponsePublic;
+};
+
+export type tasksAddResponseResponse = tasksAddResponseResponses[keyof tasksAddResponseResponses];
+
+export type tasksDeleteResponseData = {
+    body?: never;
+    path: {
+        /**
+         * Response Id
+         */
+        response_id: string;
+    };
+    query?: never;
+    url: '/api/v1/responses/{response_id}';
+};
+
+export type tasksDeleteResponseErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksDeleteResponseError = tasksDeleteResponseErrors[keyof tasksDeleteResponseErrors];
+
+export type tasksDeleteResponseResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type tasksDeleteResponseResponse = tasksDeleteResponseResponses[keyof tasksDeleteResponseResponses];
+
+export type tasksUpdateResponseData = {
+    body: ModelResponseUpdate;
+    path: {
+        /**
+         * Response Id
+         */
+        response_id: string;
+    };
+    query?: never;
+    url: '/api/v1/responses/{response_id}';
+};
+
+export type tasksUpdateResponseErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type tasksUpdateResponseError = tasksUpdateResponseErrors[keyof tasksUpdateResponseErrors];
+
+export type tasksUpdateResponseResponses = {
+    /**
+     * Successful Response
+     */
+    200: ModelResponsePublic;
+};
+
+export type tasksUpdateResponseResponse = tasksUpdateResponseResponses[keyof tasksUpdateResponseResponses];
+
+export type evaluationsReadEvaluationsData = {
+    body?: never;
+    path: {
+        /**
+         * Response Id
+         */
+        response_id: string;
+    };
+    query?: never;
+    url: '/api/v1/responses/{response_id}/evaluations';
+};
+
+export type evaluationsReadEvaluationsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type evaluationsReadEvaluationsError = evaluationsReadEvaluationsErrors[keyof evaluationsReadEvaluationsErrors];
+
+export type evaluationsReadEvaluationsResponses = {
+    /**
+     * Successful Response
+     */
+    200: EvaluationsPublic;
+};
+
+export type evaluationsReadEvaluationsResponse = evaluationsReadEvaluationsResponses[keyof evaluationsReadEvaluationsResponses];
+
+export type evaluationsAddEvaluationData = {
+    body: EvaluationCreate;
+    path: {
+        /**
+         * Response Id
+         */
+        response_id: string;
+    };
+    query?: never;
+    url: '/api/v1/responses/{response_id}/evaluations';
+};
+
+export type evaluationsAddEvaluationErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type evaluationsAddEvaluationError = evaluationsAddEvaluationErrors[keyof evaluationsAddEvaluationErrors];
+
+export type evaluationsAddEvaluationResponses = {
+    /**
+     * Successful Response
+     */
+    200: EvaluationPublic;
+};
+
+export type evaluationsAddEvaluationResponse = evaluationsAddEvaluationResponses[keyof evaluationsAddEvaluationResponses];
+
+export type evaluationsDeleteEvaluationData = {
+    body?: never;
+    path: {
+        /**
+         * Evaluation Id
+         */
+        evaluation_id: string;
+    };
+    query?: never;
+    url: '/api/v1/evaluations/{evaluation_id}';
+};
+
+export type evaluationsDeleteEvaluationErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type evaluationsDeleteEvaluationError = evaluationsDeleteEvaluationErrors[keyof evaluationsDeleteEvaluationErrors];
+
+export type evaluationsDeleteEvaluationResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type evaluationsDeleteEvaluationResponse = evaluationsDeleteEvaluationResponses[keyof evaluationsDeleteEvaluationResponses];
+
+export type evaluationsUpdateEvaluationData = {
+    body: EvaluationUpdate;
+    path: {
+        /**
+         * Evaluation Id
+         */
+        evaluation_id: string;
+    };
+    query?: never;
+    url: '/api/v1/evaluations/{evaluation_id}';
+};
+
+export type evaluationsUpdateEvaluationErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type evaluationsUpdateEvaluationError = evaluationsUpdateEvaluationErrors[keyof evaluationsUpdateEvaluationErrors];
+
+export type evaluationsUpdateEvaluationResponses = {
+    /**
+     * Successful Response
+     */
+    200: EvaluationPublic;
+};
+
+export type evaluationsUpdateEvaluationResponse = evaluationsUpdateEvaluationResponses[keyof evaluationsUpdateEvaluationResponses];
+
+export type analyticsProjectAnalyticsData = {
+    body?: never;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: string;
+    };
+    query?: never;
+    url: '/api/v1/projects/{project_id}/analytics';
+};
+
+export type analyticsProjectAnalyticsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HTTPValidationError;
+};
+
+export type analyticsProjectAnalyticsError = analyticsProjectAnalyticsErrors[keyof analyticsProjectAnalyticsErrors];
+
+export type analyticsProjectAnalyticsResponses = {
+    /**
+     * Successful Response
+     */
+    200: ProjectAnalytics;
+};
+
+export type analyticsProjectAnalyticsResponse = analyticsProjectAnalyticsResponses[keyof analyticsProjectAnalyticsResponses];
 
 export type privateCreateUserData = {
     body: PrivateUserCreate;
