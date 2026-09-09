@@ -2,7 +2,11 @@ __pycache__
 app.egg-info
 *.pyc
 .mypy_cache
+.ruff_cache
+.pytest_cache
 .coverage
 htmlcov
 .cache
 .venv
+*.db
+openapi.json
