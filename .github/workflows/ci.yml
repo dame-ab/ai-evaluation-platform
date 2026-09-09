@@ -146,6 +146,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
-          path: frontend/playwright-report/
+          name: playwright-blob-report
+          # CI mode uses the 'blob' reporter (see playwright.config.ts); it
+          # writes here, not to playwright-report/. Merge locally with
+          # `npx playwright merge-reports` to view an HTML report.
+          path: frontend/blob-report/
           retention-days: 7
