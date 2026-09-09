@@ -2,7 +2,7 @@
 
 import { type Client, type Options as Options2, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { itemsCreateItemData, itemsCreateItemErrors, itemsCreateItemResponses, itemsDeleteItemData, itemsDeleteItemErrors, itemsDeleteItemResponses, itemsReadItemData, itemsReadItemErrors, itemsReadItemResponses, itemsReadItemsData, itemsReadItemsErrors, itemsReadItemsResponses, itemsUpdateItemData, itemsUpdateItemErrors, itemsUpdateItemResponses, loginLoginAccessTokenData, loginLoginAccessTokenErrors, loginLoginAccessTokenResponses, loginRecoverPasswordData, loginRecoverPasswordErrors, loginRecoverPasswordHtmlContentData, loginRecoverPasswordHtmlContentErrors, loginRecoverPasswordHtmlContentResponses, loginRecoverPasswordResponses, loginResetPasswordData, loginResetPasswordErrors, loginResetPasswordResponses, loginTestTokenData, loginTestTokenResponses, privateCreateUserData, privateCreateUserErrors, privateCreateUserResponses, usersCreateUserData, usersCreateUserErrors, usersCreateUserResponses, usersDeleteUserData, usersDeleteUserErrors, usersDeleteUserMeData, usersDeleteUserMeResponses, usersDeleteUserResponses, usersReadUserByIdData, usersReadUserByIdErrors, usersReadUserByIdResponses, usersReadUserMeData, usersReadUserMeResponses, usersReadUsersData, usersReadUsersErrors, usersReadUsersResponses, usersRegisterUserData, usersRegisterUserErrors, usersRegisterUserResponses, usersUpdatePasswordMeData, usersUpdatePasswordMeErrors, usersUpdatePasswordMeResponses, usersUpdateUserData, usersUpdateUserErrors, usersUpdateUserMeData, usersUpdateUserMeErrors, usersUpdateUserMeResponses, usersUpdateUserResponses, utilsHealthCheckData, utilsHealthCheckResponses, utilsTestEmailData, utilsTestEmailErrors, utilsTestEmailResponses } from './types.gen';
+import type { analyticsProjectAnalyticsData, analyticsProjectAnalyticsErrors, analyticsProjectAnalyticsResponses, evaluationsAddEvaluationData, evaluationsAddEvaluationErrors, evaluationsAddEvaluationResponses, evaluationsDeleteEvaluationData, evaluationsDeleteEvaluationErrors, evaluationsDeleteEvaluationResponses, evaluationsReadEvaluationsData, evaluationsReadEvaluationsErrors, evaluationsReadEvaluationsResponses, evaluationsUpdateEvaluationData, evaluationsUpdateEvaluationErrors, evaluationsUpdateEvaluationResponses, loginLoginAccessTokenData, loginLoginAccessTokenErrors, loginLoginAccessTokenResponses, loginRecoverPasswordData, loginRecoverPasswordErrors, loginRecoverPasswordHtmlContentData, loginRecoverPasswordHtmlContentErrors, loginRecoverPasswordHtmlContentResponses, loginRecoverPasswordResponses, loginResetPasswordData, loginResetPasswordErrors, loginResetPasswordResponses, loginTestTokenData, loginTestTokenResponses, privateCreateUserData, privateCreateUserErrors, privateCreateUserResponses, projectsCreateNewProjectData, projectsCreateNewProjectErrors, projectsCreateNewProjectResponses, projectsDeleteProjectData, projectsDeleteProjectErrors, projectsDeleteProjectResponses, projectsReadProjectData, projectsReadProjectErrors, projectsReadProjectResponses, projectsReadProjectsData, projectsReadProjectsErrors, projectsReadProjectsResponses, projectsUpdateProjectData, projectsUpdateProjectErrors, projectsUpdateProjectResponses, rubricsAddCriterionData, rubricsAddCriterionErrors, rubricsAddCriterionResponses, rubricsCreateProjectRubricData, rubricsCreateProjectRubricErrors, rubricsCreateProjectRubricResponses, rubricsDeleteCriterionData, rubricsDeleteCriterionErrors, rubricsDeleteCriterionResponses, rubricsDeleteRubricData, rubricsDeleteRubricErrors, rubricsDeleteRubricResponses, rubricsReadRubricData, rubricsReadRubricErrors, rubricsReadRubricResponses, rubricsReadRubricsData, rubricsReadRubricsErrors, rubricsReadRubricsResponses, rubricsUpdateCriterionData, rubricsUpdateCriterionErrors, rubricsUpdateCriterionResponses, rubricsUpdateRubricData, rubricsUpdateRubricErrors, rubricsUpdateRubricResponses, tasksAddResponseData, tasksAddResponseErrors, tasksAddResponseResponses, tasksCreateProjectTaskData, tasksCreateProjectTaskErrors, tasksCreateProjectTaskResponses, tasksDeleteResponseData, tasksDeleteResponseErrors, tasksDeleteResponseResponses, tasksDeleteTaskData, tasksDeleteTaskErrors, tasksDeleteTaskResponses, tasksReadResponsesData, tasksReadResponsesErrors, tasksReadResponsesResponses, tasksReadTaskData, tasksReadTaskErrors, tasksReadTaskResponses, tasksReadTasksData, tasksReadTasksErrors, tasksReadTasksResponses, tasksUpdateResponseData, tasksUpdateResponseErrors, tasksUpdateResponseResponses, tasksUpdateTaskData, tasksUpdateTaskErrors, tasksUpdateTaskResponses, usersCreateUserData, usersCreateUserErrors, usersCreateUserResponses, usersDeleteUserData, usersDeleteUserErrors, usersDeleteUserMeData, usersDeleteUserMeResponses, usersDeleteUserResponses, usersReadUserByIdData, usersReadUserByIdErrors, usersReadUserByIdResponses, usersReadUserMeData, usersReadUserMeResponses, usersReadUsersData, usersReadUsersErrors, usersReadUsersResponses, usersRegisterUserData, usersRegisterUserErrors, usersRegisterUserResponses, usersUpdatePasswordMeData, usersUpdatePasswordMeErrors, usersUpdatePasswordMeResponses, usersUpdateUserData, usersUpdateUserErrors, usersUpdateUserMeData, usersUpdateUserMeErrors, usersUpdateUserMeResponses, usersUpdateUserResponses, utilsHealthCheckData, utilsHealthCheckResponses, utilsTestEmailData, utilsTestEmailErrors, utilsTestEmailResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -284,31 +284,31 @@ export class UtilsService {
     }
 }
 
-export class ItemsService {
+export class ProjectsService {
     /**
-     * Read Items
+     * Read Projects
      *
-     * Retrieve items.
+     * Retrieve the current user's evaluation projects (all projects for a superuser).
      */
-    public static readItems<ThrowOnError extends boolean = true>(options?: Options<itemsReadItemsData, ThrowOnError>) {
-        return (options?.client ?? client).get<itemsReadItemsResponses, itemsReadItemsErrors, ThrowOnError>({
+    public static readProjects<ThrowOnError extends boolean = true>(options?: Options<projectsReadProjectsData, ThrowOnError>) {
+        return (options?.client ?? client).get<projectsReadProjectsResponses, projectsReadProjectsErrors, ThrowOnError>({
             responseType: 'json',
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/items/',
+            url: '/api/v1/projects/',
             ...options
         });
     }
     
     /**
-     * Create Item
+     * Create New Project
      *
-     * Create new item.
+     * Create a new evaluation project.
      */
-    public static createItem<ThrowOnError extends boolean = true>(options: Options<itemsCreateItemData, ThrowOnError>) {
-        return (options.client ?? client).post<itemsCreateItemResponses, itemsCreateItemErrors, ThrowOnError>({
+    public static createNewProject<ThrowOnError extends boolean = true>(options: Options<projectsCreateNewProjectData, ThrowOnError>) {
+        return (options.client ?? client).post<projectsCreateNewProjectResponses, projectsCreateNewProjectErrors, ThrowOnError>({
             responseType: 'json',
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/items/',
+            url: '/api/v1/projects/',
             ...options,
             headers: {
                 'Content-Type': 'application/json',
@@ -318,48 +318,405 @@ export class ItemsService {
     }
     
     /**
-     * Delete Item
+     * Delete Project
      *
-     * Delete an item.
+     * Delete a project and everything nested under it (rubrics, tasks, responses, evaluations).
      */
-    public static deleteItem<ThrowOnError extends boolean = true>(options: Options<itemsDeleteItemData, ThrowOnError>) {
-        return (options.client ?? client).delete<itemsDeleteItemResponses, itemsDeleteItemErrors, ThrowOnError>({
+    public static deleteProject<ThrowOnError extends boolean = true>(options: Options<projectsDeleteProjectData, ThrowOnError>) {
+        return (options.client ?? client).delete<projectsDeleteProjectResponses, projectsDeleteProjectErrors, ThrowOnError>({
             responseType: 'json',
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/items/{id}',
+            url: '/api/v1/projects/{project_id}',
             ...options
         });
     }
     
     /**
-     * Read Item
+     * Read Project
      *
-     * Get item by ID.
+     * Get one project by ID, with rollup counts.
      */
-    public static readItem<ThrowOnError extends boolean = true>(options: Options<itemsReadItemData, ThrowOnError>) {
-        return (options.client ?? client).get<itemsReadItemResponses, itemsReadItemErrors, ThrowOnError>({
+    public static readProject<ThrowOnError extends boolean = true>(options: Options<projectsReadProjectData, ThrowOnError>) {
+        return (options.client ?? client).get<projectsReadProjectResponses, projectsReadProjectErrors, ThrowOnError>({
             responseType: 'json',
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/items/{id}',
+            url: '/api/v1/projects/{project_id}',
             ...options
         });
     }
     
     /**
-     * Update Item
+     * Update Project
      *
-     * Update an item.
+     * Update a project's name/description.
      */
-    public static updateItem<ThrowOnError extends boolean = true>(options: Options<itemsUpdateItemData, ThrowOnError>) {
-        return (options.client ?? client).put<itemsUpdateItemResponses, itemsUpdateItemErrors, ThrowOnError>({
+    public static updateProject<ThrowOnError extends boolean = true>(options: Options<projectsUpdateProjectData, ThrowOnError>) {
+        return (options.client ?? client).put<projectsUpdateProjectResponses, projectsUpdateProjectErrors, ThrowOnError>({
             responseType: 'json',
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/items/{id}',
+            url: '/api/v1/projects/{project_id}',
             ...options,
             headers: {
                 'Content-Type': 'application/json',
                 ...options.headers
             }
+        });
+    }
+}
+
+export class RubricsService {
+    /**
+     * Read Rubrics
+     *
+     * List the scoring rubrics defined for a project.
+     */
+    public static readRubrics<ThrowOnError extends boolean = true>(options: Options<rubricsReadRubricsData, ThrowOnError>) {
+        return (options.client ?? client).get<rubricsReadRubricsResponses, rubricsReadRubricsErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/projects/{project_id}/rubrics',
+            ...options
+        });
+    }
+    
+    /**
+     * Create Project Rubric
+     *
+     * Create a rubric (with an optional set of criteria) for a project.
+     */
+    public static createProjectRubric<ThrowOnError extends boolean = true>(options: Options<rubricsCreateProjectRubricData, ThrowOnError>) {
+        return (options.client ?? client).post<rubricsCreateProjectRubricResponses, rubricsCreateProjectRubricErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/projects/{project_id}/rubrics',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete Rubric
+     *
+     * Delete a rubric and its criteria.
+     */
+    public static deleteRubric<ThrowOnError extends boolean = true>(options: Options<rubricsDeleteRubricData, ThrowOnError>) {
+        return (options.client ?? client).delete<rubricsDeleteRubricResponses, rubricsDeleteRubricErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/rubrics/{rubric_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Rubric
+     *
+     * Get one rubric, including its criteria.
+     */
+    public static readRubric<ThrowOnError extends boolean = true>(options: Options<rubricsReadRubricData, ThrowOnError>) {
+        return (options.client ?? client).get<rubricsReadRubricResponses, rubricsReadRubricErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/rubrics/{rubric_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update Rubric
+     *
+     * Rename or redescribe a rubric.
+     */
+    public static updateRubric<ThrowOnError extends boolean = true>(options: Options<rubricsUpdateRubricData, ThrowOnError>) {
+        return (options.client ?? client).put<rubricsUpdateRubricResponses, rubricsUpdateRubricErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/rubrics/{rubric_id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Add Criterion
+     *
+     * Add a scoring criterion (e.g. "Correctness") to a rubric.
+     */
+    public static addCriterion<ThrowOnError extends boolean = true>(options: Options<rubricsAddCriterionData, ThrowOnError>) {
+        return (options.client ?? client).post<rubricsAddCriterionResponses, rubricsAddCriterionErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/rubrics/{rubric_id}/criteria',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete Criterion
+     *
+     * Remove a criterion from a rubric.
+     */
+    public static deleteCriterion<ThrowOnError extends boolean = true>(options: Options<rubricsDeleteCriterionData, ThrowOnError>) {
+        return (options.client ?? client).delete<rubricsDeleteCriterionResponses, rubricsDeleteCriterionErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/rubrics/{rubric_id}/criteria/{criterion_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update Criterion
+     *
+     * Edit a rubric criterion's name, weight, description, or scale.
+     */
+    public static updateCriterion<ThrowOnError extends boolean = true>(options: Options<rubricsUpdateCriterionData, ThrowOnError>) {
+        return (options.client ?? client).put<rubricsUpdateCriterionResponses, rubricsUpdateCriterionErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/rubrics/{rubric_id}/criteria/{criterion_id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class TasksService {
+    /**
+     * Read Tasks
+     *
+     * List the evaluation tasks (prompts) in a project.
+     */
+    public static readTasks<ThrowOnError extends boolean = true>(options: Options<tasksReadTasksData, ThrowOnError>) {
+        return (options.client ?? client).get<tasksReadTasksResponses, tasksReadTasksErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/projects/{project_id}/tasks',
+            ...options
+        });
+    }
+    
+    /**
+     * Create Project Task
+     *
+     * Add a new task (prompt to be evaluated across models) to a project.
+     */
+    public static createProjectTask<ThrowOnError extends boolean = true>(options: Options<tasksCreateProjectTaskData, ThrowOnError>) {
+        return (options.client ?? client).post<tasksCreateProjectTaskResponses, tasksCreateProjectTaskErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/projects/{project_id}/tasks',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete Task
+     *
+     * Delete a task and its responses/evaluations.
+     */
+    public static deleteTask<ThrowOnError extends boolean = true>(options: Options<tasksDeleteTaskData, ThrowOnError>) {
+        return (options.client ?? client).delete<tasksDeleteTaskResponses, tasksDeleteTaskErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/tasks/{task_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Task
+     *
+     * Get one task.
+     */
+    public static readTask<ThrowOnError extends boolean = true>(options: Options<tasksReadTaskData, ThrowOnError>) {
+        return (options.client ?? client).get<tasksReadTaskResponses, tasksReadTaskErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/tasks/{task_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update Task
+     *
+     * Edit a task's prompt, reference answer, or category.
+     */
+    public static updateTask<ThrowOnError extends boolean = true>(options: Options<tasksUpdateTaskData, ThrowOnError>) {
+        return (options.client ?? client).put<tasksUpdateTaskResponses, tasksUpdateTaskErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/tasks/{task_id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Read Responses
+     *
+     * List the model responses submitted for a task, for side-by-side comparison.
+     */
+    public static readResponses<ThrowOnError extends boolean = true>(options: Options<tasksReadResponsesData, ThrowOnError>) {
+        return (options.client ?? client).get<tasksReadResponsesResponses, tasksReadResponsesErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/tasks/{task_id}/responses',
+            ...options
+        });
+    }
+    
+    /**
+     * Add Response
+     *
+     * Record a model's response to a task's prompt.
+     */
+    public static addResponse<ThrowOnError extends boolean = true>(options: Options<tasksAddResponseData, ThrowOnError>) {
+        return (options.client ?? client).post<tasksAddResponseResponses, tasksAddResponseErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/tasks/{task_id}/responses',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete Response
+     *
+     * Delete a model response and any evaluations of it.
+     */
+    public static deleteResponse<ThrowOnError extends boolean = true>(options: Options<tasksDeleteResponseData, ThrowOnError>) {
+        return (options.client ?? client).delete<tasksDeleteResponseResponses, tasksDeleteResponseErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/responses/{response_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update Response
+     *
+     * Edit a recorded model response.
+     */
+    public static updateResponse<ThrowOnError extends boolean = true>(options: Options<tasksUpdateResponseData, ThrowOnError>) {
+        return (options.client ?? client).put<tasksUpdateResponseResponses, tasksUpdateResponseErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/responses/{response_id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class EvaluationsService {
+    /**
+     * Read Evaluations
+     *
+     * List the evaluations recorded for a response.
+     */
+    public static readEvaluations<ThrowOnError extends boolean = true>(options: Options<evaluationsReadEvaluationsData, ThrowOnError>) {
+        return (options.client ?? client).get<evaluationsReadEvaluationsResponses, evaluationsReadEvaluationsErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/responses/{response_id}/evaluations',
+            ...options
+        });
+    }
+    
+    /**
+     * Add Evaluation
+     *
+     * Score a response: per-criterion scores, a written justification, an optional
+     * failure classification, and whether this response won the comparison.
+     */
+    public static addEvaluation<ThrowOnError extends boolean = true>(options: Options<evaluationsAddEvaluationData, ThrowOnError>) {
+        return (options.client ?? client).post<evaluationsAddEvaluationResponses, evaluationsAddEvaluationErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/responses/{response_id}/evaluations',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete Evaluation
+     *
+     * Delete an evaluation (only the evaluator or a superuser may).
+     */
+    public static deleteEvaluation<ThrowOnError extends boolean = true>(options: Options<evaluationsDeleteEvaluationData, ThrowOnError>) {
+        return (options.client ?? client).delete<evaluationsDeleteEvaluationResponses, evaluationsDeleteEvaluationErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/evaluations/{evaluation_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update Evaluation
+     *
+     * Edit an existing evaluation (only the evaluator or a superuser may).
+     */
+    public static updateEvaluation<ThrowOnError extends boolean = true>(options: Options<evaluationsUpdateEvaluationData, ThrowOnError>) {
+        return (options.client ?? client).put<evaluationsUpdateEvaluationResponses, evaluationsUpdateEvaluationErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/evaluations/{evaluation_id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class AnalyticsService {
+    /**
+     * Project Analytics
+     *
+     * Win-rate and score analytics for every model compared within a project.
+     */
+    public static projectAnalytics<ThrowOnError extends boolean = true>(options: Options<analyticsProjectAnalyticsData, ThrowOnError>) {
+        return (options.client ?? client).get<analyticsProjectAnalyticsResponses, analyticsProjectAnalyticsErrors, ThrowOnError>({
+            responseType: 'json',
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/projects/{project_id}/analytics',
+            ...options
         });
     }
 }

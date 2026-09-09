@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type ItemCreate, ItemsService } from "@/client"
+import { type EvalTaskCreate, TasksService } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -27,102 +27,137 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
+import { Textarea } from "@/components/ui/textarea"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  description: z.string().optional(),
+  title: z.string().min(1, "Title is required").max(255),
+  category: z.string().optional(),
+  prompt: z.string().min(1, "Prompt is required"),
+  reference_answer: z.string().optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
 
-const AddItem = () => {
+export function AddTask({ projectId }: { projectId: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    mode: "onBlur",
-    criteriaMode: "all",
     defaultValues: {
       title: "",
-      description: "",
+      category: "",
+      prompt: "",
+      reference_answer: "",
     },
   })
 
   const mutation = useMutation({
-    mutationFn: (data: ItemCreate) => ItemsService.createItem({ body: data }),
+    mutationFn: (data: EvalTaskCreate) =>
+      TasksService.createProjectTask({
+        path: { project_id: projectId },
+        body: data,
+      }),
     onSuccess: () => {
-      showSuccessToast("Item created successfully")
+      showSuccessToast("Task added")
       form.reset()
       setIsOpen(false)
     },
     onError: handleError.bind(showErrorToast),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] })
-    },
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] }),
   })
-
-  const onSubmit = (data: FormData) => {
-    mutation.mutate(data)
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="my-4">
+        <Button>
           <Plus className="mr-2" />
-          Add Item
+          Add task
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add Item</DialogTitle>
+          <DialogTitle>Add evaluation task</DialogTitle>
           <DialogDescription>
-            Fill in the details to add a new item.
+            A prompt that will be answered by multiple models, then compared
+            side-by-side.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit((d) => mutation.mutate(d))}>
             <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Refund status inquiry"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. Billing" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
-                name="title"
+                name="prompt"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Title <span className="text-destructive">*</span>
+                      Prompt <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Title"
-                        type="text"
+                      <Textarea
+                        rows={4}
+                        placeholder="The prompt every model response should answer"
                         {...field}
-                        required
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
-                name="description"
+                name="reference_answer"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Reference answer (optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Description" type="text" {...field} />
+                      <Textarea
+                        rows={3}
+                        placeholder="What a strong answer should cover"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline" disabled={mutation.isPending}>
@@ -130,7 +165,7 @@ const AddItem = () => {
                 </Button>
               </DialogClose>
               <LoadingButton type="submit" loading={mutation.isPending}>
-                Save
+                Save task
               </LoadingButton>
             </DialogFooter>
           </form>
@@ -140,4 +175,4 @@ const AddItem = () => {
   )
 }
 
-export default AddItem
+export default AddTask

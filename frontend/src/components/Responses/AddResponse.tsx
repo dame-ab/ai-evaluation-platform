@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Pencil } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type ItemPublic, ItemsService } from "@/client"
+import { type ModelResponseCreate, TasksService } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -15,8 +15,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog"
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import {
   Form,
   FormControl,
@@ -27,104 +27,85 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
+import { Textarea } from "@/components/ui/textarea"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 
 const formSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  description: z.string().optional(),
+  model_name: z.string().min(1, "Model name is required").max(100),
+  response_text: z.string().min(1, "Response text is required"),
 })
 
 type FormData = z.infer<typeof formSchema>
 
-interface EditItemProps {
-  item: ItemPublic
-  onSuccess: () => void
-}
-
-const EditItem = ({ item, onSuccess }: EditItemProps) => {
+export function AddResponse({ taskId }: { taskId: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    mode: "onBlur",
-    criteriaMode: "all",
-    defaultValues: {
-      title: item.title,
-      description: item.description ?? undefined,
-    },
+    defaultValues: { model_name: "", response_text: "" },
   })
 
   const mutation = useMutation({
-    mutationFn: (data: FormData) =>
-      ItemsService.updateItem({ path: { id: item.id }, body: data }),
+    mutationFn: (data: ModelResponseCreate) =>
+      TasksService.addResponse({ path: { task_id: taskId }, body: data }),
     onSuccess: () => {
-      showSuccessToast("Item updated successfully")
+      showSuccessToast("Response added")
+      form.reset()
       setIsOpen(false)
-      onSuccess()
     },
     onError: handleError.bind(showErrorToast),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] })
-    },
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ["responses", taskId] }),
   })
-
-  const onSubmit = (data: FormData) => {
-    mutation.mutate(data)
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuItem
-        onSelect={(e) => e.preventDefault()}
-        onClick={() => setIsOpen(true)}
-      >
-        <Pencil />
-        Edit Item
-      </DropdownMenuItem>
-      <DialogContent className="sm:max-w-md">
+      <DialogTrigger asChild>
+        <Button variant="outline">
+          <Plus className="mr-2" />
+          Add model response
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Add a model response</DialogTitle>
+          <DialogDescription>
+            Paste in what a given model answered for this task's prompt.
+          </DialogDescription>
+        </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogHeader>
-              <DialogTitle>Edit Item</DialogTitle>
-              <DialogDescription>
-                Update the item details below.
-              </DialogDescription>
-            </DialogHeader>
+          <form onSubmit={form.handleSubmit((d) => mutation.mutate(d))}>
             <div className="grid gap-4 py-4">
               <FormField
                 control={form.control}
-                name="title"
+                name="model_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Title <span className="text-destructive">*</span>
-                    </FormLabel>
+                    <FormLabel>Model</FormLabel>
                     <FormControl>
-                      <Input placeholder="Title" type="text" {...field} />
+                      <Input placeholder="e.g. GPT-4o" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
-                name="description"
+                name="response_text"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Response</FormLabel>
                     <FormControl>
-                      <Input placeholder="Description" type="text" {...field} />
+                      <Textarea rows={6} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline" disabled={mutation.isPending}>
@@ -132,7 +113,7 @@ const EditItem = ({ item, onSuccess }: EditItemProps) => {
                 </Button>
               </DialogClose>
               <LoadingButton type="submit" loading={mutation.isPending}>
-                Save
+                Add response
               </LoadingButton>
             </DialogFooter>
           </form>
@@ -142,4 +123,4 @@ const EditItem = ({ item, onSuccess }: EditItemProps) => {
   )
 }
 
-export default EditItem
+export default AddResponse
